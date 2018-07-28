@@ -24,8 +24,8 @@
         <SplitView Name="mySplitView" Grid.Row="1" OpenPaneLength="200">
             <SplitView.Pane>
                 <ListBox SelectionMode="Single" SelectionChanged="ListBox_SelectionChanged">
-                    <ListBoxItem Name="home">
-                        <TextBlock FontSize="24" Text="Главная" />
+                    <ListBoxItem Name="PlaneTypes">
+                        <TextBlock FontSize="24" Text="PlaneTypes" />
                     </ListBoxItem>
                     <ListBoxItem Name="Flights">
                         <TextBlock FontSize="24" Text="Flights" />

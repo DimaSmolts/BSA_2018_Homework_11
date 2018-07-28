@@ -99,11 +99,17 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Flight.cs" />
+    <Compile Include="Model\PlaneType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\FlightService.cs" />
     <Compile Include="Service\Interfaces\IFlightService.cs" />
+    <Compile Include="Service\Interfaces\IPlaneTypeService.cs" />
+    <Compile Include="Service\PlaneTypeService.cs" />
     <Compile Include="View\Flights.xaml.cs">
       <DependentUpon>Flights.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlaneType.xaml.cs">
+      <DependentUpon>PlaneType.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +138,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Flights.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlaneType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

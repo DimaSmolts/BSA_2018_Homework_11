@@ -28,15 +28,15 @@ namespace UWPClient
             this.InitializeComponent();
 
 			myFrame.Navigate(typeof(Flights));
-			TitleTextBlock.Text = "Главная";
+			//TitleTextBlock.Text = "Главная";
 		}
 
 		private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (home.IsSelected)
+			if (PlaneTypes.IsSelected)
 			{
-				myFrame.Navigate(typeof(Flights));
-				TitleTextBlock.Text = "Главная";
+				myFrame.Navigate(typeof(PlaneType));
+				TitleTextBlock.Text = "PlaneTypes";
 			}
 			else if (Flights.IsSelected)
 			{

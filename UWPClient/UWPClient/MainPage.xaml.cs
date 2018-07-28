@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using UWPClient.View;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
 
@@ -25,6 +26,28 @@ namespace UWPClient
         public MainPage()
         {
             this.InitializeComponent();
-        }
-    }
+
+			myFrame.Navigate(typeof(Flights));
+			TitleTextBlock.Text = "Главная";
+		}
+
+		private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (home.IsSelected)
+			{
+				myFrame.Navigate(typeof(Flights));
+				TitleTextBlock.Text = "Главная";
+			}
+			else if (Flights.IsSelected)
+			{
+				myFrame.Navigate(typeof(Flights));
+				TitleTextBlock.Text = "Flights";
+			}
+		}
+
+		private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+		{
+			mySplitView.IsPaneOpen = !mySplitView.IsPaneOpen;
+		}
+	}
 }

@@ -101,8 +101,10 @@
     <Compile Include="Model\Crew.cs" />
     <Compile Include="Model\Flight.cs" />
     <Compile Include="Model\Pilot.cs" />
+    <Compile Include="Model\Plane.cs" />
     <Compile Include="Model\PlaneType.cs" />
     <Compile Include="Model\Stewardess.cs" />
+    <Compile Include="Model\TakeOff.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CrewService.cs" />
@@ -110,12 +112,16 @@
     <Compile Include="Service\Interfaces\ICrewService.cs" />
     <Compile Include="Service\Interfaces\IFlightService.cs" />
     <Compile Include="Service\Interfaces\IPilotService.cs" />
+    <Compile Include="Service\Interfaces\IPlaneService.cs" />
     <Compile Include="Service\Interfaces\IPlaneTypeService.cs" />
     <Compile Include="Service\Interfaces\IStewardessService.cs" />
+    <Compile Include="Service\Interfaces\ITakeOffService.cs" />
     <Compile Include="Service\Interfaces\ITicketService.cs" />
     <Compile Include="Service\PilotService.cs" />
+    <Compile Include="Service\PlaneService.cs" />
     <Compile Include="Service\PlaneTypeService.cs" />
     <Compile Include="Service\StewardessService.cs" />
+    <Compile Include="Service\TakeOffService.cs" />
     <Compile Include="Service\TicketService.cs" />
     <Compile Include="View\Crews.xaml.cs">
       <DependentUpon>Crews.xaml</DependentUpon>
@@ -126,11 +132,17 @@
     <Compile Include="View\Pilots.xaml.cs">
       <DependentUpon>Pilots.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Planes.xaml.cs">
+      <DependentUpon>Planes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PlaneType.xaml.cs">
       <DependentUpon>PlaneType.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stewardesses.xaml.cs">
       <DependentUpon>Stewardesses.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TakeOffs.xaml.cs">
+      <DependentUpon>TakeOffs.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tickets.xaml.cs">
       <DependentUpon>Tickets.xaml</DependentUpon>
@@ -173,11 +185,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Planes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PlaneType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Stewardesses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TakeOffs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -33,6 +33,9 @@
                     <ListBoxItem Name="Pilots">
                         <TextBlock FontSize="24" Text="Pilots" />
                     </ListBoxItem>
+                    <ListBoxItem Name="Stewardesses">
+                        <TextBlock FontSize="24" Text="Stewardesses" />
+                    </ListBoxItem>
                 </ListBox>
             </SplitView.Pane>
             <SplitView.Content>

@@ -19,7 +19,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="60" Text="{x:Bind s}"></TextBlock>
+        <Button x:Name="Add" Content="Add Plane Type"/> 
 
         <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{x:Bind list}" SelectedItem="{x:Bind planeType, Mode=TwoWay}">
             <ListView.ItemTemplate>
@@ -28,9 +28,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid x:Name="gr" Grid.Column="1" Grid.Row="1" Padding="10">
+        <Grid x:Name="gr" Grid.Column="1" Grid.Row="1" Padding="10">     
             
-
         </Grid>
     </Grid>
 </Page>

@@ -7,6 +7,10 @@ using UWPClient.Model;
 using UWPClient.Service.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Headers;
+//using System.Net.Http;
+
+
 
 
 namespace UWPClient.Service
@@ -22,9 +26,9 @@ namespace UWPClient.Service
 		}
 
 
-		public Task Create(PlaneType pt)
+		public async Task Create(PlaneType pt)
 		{
-			throw new NotImplementedException();
+			await client.PostAsJsonAsync(path, pt);
 		}
 
 		public async Task Delete(int id)
@@ -46,9 +50,11 @@ namespace UWPClient.Service
 			return pts;
 		}
 
-		public Task Update(int id, PlaneType pt)
+		public async Task Update(int id, PlaneType pt)
 		{
-			throw new NotImplementedException();
+			string temp = path.ToString() + "/" + id.ToString();
+
+			await client.PutAsJsonAsync(temp, pt);
 		}
 	}
 }

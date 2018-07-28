@@ -35,6 +35,8 @@ namespace UWPClient.View
 			this.InitializeComponent();
 			pts = new PlaneTypeService();
 			list = pts.GetAll().Result;
+
+			Add.Click +=  (sender, e) =>  Create();
 		}
 
 		private Model.PlaneType _planeType;
@@ -78,6 +80,7 @@ namespace UWPClient.View
 					Button delete = new Button { Name = "delete", Content = "Delete", Width = 100 };
 					delete.Click += (sender, e) => DeleteById(_planeType.Id);
 					Button edit = new Button { Name = "edit", Content = "Edit", Width = 100 };
+					edit.Click +=  (sender, e) => EditById(_planeType.Id);
 
 					gr.Children.Clear();
 
@@ -109,9 +112,106 @@ namespace UWPClient.View
 
 		public async Task DeleteById(int id)
 		{
+			
 			await pts.Delete(id);
 			this.Frame.Navigate(typeof(PlaneType));
 
 		}
+
+		public void EditById(int id)
+		{
+			gr.Children.Clear();
+
+			TextBox model = new TextBox();
+			model.Header = "Model";
+			model.Width = 300;
+			TextBox places = new TextBox();
+			places.Header = "Places";
+			places.Width = 300;
+			TextBox carCap = new TextBox();
+			carCap.Header = "Carry";
+			carCap.Width = 300; ;
+
+			Button submit = new Button { Name = "submit", Content = "Submit", Width = 100 };
+			submit.Click += async (sender, e) =>  await SubmitEdit(id, model.Text, Convert.ToInt32(places.Text), Convert.ToInt32(carCap.Text));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+
+			gr.Children.Add(model);
+			gr.Children.Add(places);
+			gr.Children.Add(carCap);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(model, 0);
+			Grid.SetRow(places, 1);
+			Grid.SetRow(carCap, 2);
+			Grid.SetRow(submit, 3);
+		}
+
+		public async Task SubmitEdit(int id, string model, int places, int carCap)
+		{
+			Model.PlaneType temp = new Model.PlaneType();
+
+			temp.Model = model;
+			temp.Places = (places);
+			temp.CarryCapacity = (carCap);
+
+
+			await pts.Update(id, temp);
+			this.Frame.Navigate(typeof(PlaneType));
+		}
+
+		public void Create()
+		{
+			gr.Children.Clear();
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+
+			TextBox model = new TextBox();
+			model.Header = "Model";
+			model.Width = 300;
+			TextBox places = new TextBox();
+			places.Header = "Places";
+			places.Width = 300;
+			TextBox carCap = new TextBox();
+			carCap.Header = "Carry";
+			carCap.Width = 300;
+
+			Button submit = new Button { Name = "submit", Content = "Submit", Width = 100 };
+			submit.Click += async (sender, e) => await SubmitCreate(model.Text, Convert.ToInt32(places.Text), Convert.ToInt32(carCap.Text));
+
+
+			gr.Children.Add(model);
+			gr.Children.Add(places);
+			gr.Children.Add(carCap);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(model, 0);
+			Grid.SetRow(places, 1);
+			Grid.SetRow(carCap, 2);
+			Grid.SetRow(submit, 3);
+		}
+
+		public async Task SubmitCreate(string model, int places, int carCap)
+		{
+			Model.PlaneType temp = new Model.PlaneType();
+
+			temp.Model = model;
+			temp.Places = (places);
+			temp.CarryCapacity = (carCap);
+
+
+			await pts.Create(temp);
+			this.Frame.Navigate(typeof(PlaneType));
+		}
+
 	}
 }

@@ -77,9 +77,11 @@ namespace UWPClient.View
 					TextBlock t2 = new TextBlock { Text = "Places: " + _planeType.Places };
 					TextBlock t3 = new TextBlock { Text = "Carry Capacity: " + _planeType.CarryCapacity };
 
-					Button delete = new Button { Name = "delete", Content = "Delete", Width = 100 };
-					delete.Click += (sender, e) => DeleteById(_planeType.Id);
-					Button edit = new Button { Name = "edit", Content = "Edit", Width = 100 };
+					Button delete = new Button { Name = "delete", Content = "Delete", Width = 150 };
+					delete.Margin = new Thickness(0, 10, 0, 10);
+					delete.Click += async (sender, e) => await DeleteById(_planeType.Id);
+					Button edit = new Button { Name = "edit", Content = "Edit", Width = 150 };
+					edit.Margin = new Thickness(0, 10, 0, 10);
 					edit.Click +=  (sender, e) => EditById(_planeType.Id);
 
 					gr.Children.Clear();
@@ -124,15 +126,16 @@ namespace UWPClient.View
 
 			TextBox model = new TextBox();
 			model.Header = "Model";
-			model.Width = 300;
+			//model.Width = 300;
 			TextBox places = new TextBox();
 			places.Header = "Places";
-			places.Width = 300;
+			//places.Width = 300;
 			TextBox carCap = new TextBox();
 			carCap.Header = "Carry";
-			carCap.Width = 300; ;
+			//carCap.Width = 300; ;
 
-			Button submit = new Button { Name = "submit", Content = "Submit", Width = 100 };
+			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
 			submit.Click += async (sender, e) =>  await SubmitEdit(id, model.Text, Convert.ToInt32(places.Text), Convert.ToInt32(carCap.Text));
 
 			ColumnDefinition cd = new ColumnDefinition();
@@ -167,7 +170,7 @@ namespace UWPClient.View
 
 		public void Create()
 		{
-			gr.Children.Clear();
+			this.planeType = new Model.PlaneType();
 
 			ColumnDefinition cd = new ColumnDefinition();
 			RowDefinition rd0 = new RowDefinition();
@@ -177,17 +180,22 @@ namespace UWPClient.View
 
 			TextBox model = new TextBox();
 			model.Header = "Model";
-			model.Width = 300;
+			//model.Width = 300;
 			TextBox places = new TextBox();
 			places.Header = "Places";
-			places.Width = 300;
+			//places.Width = 300;
 			TextBox carCap = new TextBox();
 			carCap.Header = "Carry";
-			carCap.Width = 300;
+			//carCap.Width = 300;
 
-			Button submit = new Button { Name = "submit", Content = "Submit", Width = 100 };
+			Button submit = new Button { Name = "submit", Content = "Submit Create", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
 			submit.Click += async (sender, e) => await SubmitCreate(model.Text, Convert.ToInt32(places.Text), Convert.ToInt32(carCap.Text));
 
+			
+			if (gr.Children.Count > 0)
+				gr.Children.Clear();
+			
 
 			gr.Children.Add(model);
 			gr.Children.Add(places);

@@ -19,7 +19,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="Add" Content="Add Plane Type"/> 
+        <Button x:Name="Add" Margin="10" Content="Add Plane Type"/> 
 
         <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{x:Bind list}" SelectedItem="{x:Bind planeType, Mode=TwoWay}">
             <ListView.ItemTemplate>

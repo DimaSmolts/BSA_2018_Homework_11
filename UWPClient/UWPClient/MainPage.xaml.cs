@@ -58,6 +58,11 @@ namespace UWPClient
 				myFrame.Navigate(typeof(Crews));
 				TitleTextBlock.Text = "Crews";
 			}
+			else if (Tickets.IsSelected)
+			{
+				myFrame.Navigate(typeof(Tickets));
+				TitleTextBlock.Text = "Tickets";
+			}
 		}
 
 		private void HamburgerButton_Click(object sender, RoutedEventArgs e)

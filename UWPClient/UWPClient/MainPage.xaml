@@ -24,12 +24,15 @@
         <SplitView Name="mySplitView" Grid.Row="1" OpenPaneLength="200">
             <SplitView.Pane>
                 <ListBox SelectionMode="Single" SelectionChanged="ListBox_SelectionChanged">
+                    <ListBoxItem Name="Flights">
+                        <TextBlock FontSize="24" Text="Flights" />
+                    </ListBoxItem>
                     <ListBoxItem Name="PlaneTypes">
                         <TextBlock FontSize="24" Text="PlaneTypes" />
                     </ListBoxItem>
-                    <ListBoxItem Name="Flights">
-                        <TextBlock FontSize="24" Text="Flights" />
-                    </ListBoxItem>                    
+                    <ListBoxItem Name="Pilots">
+                        <TextBlock FontSize="24" Text="Pilots" />
+                    </ListBoxItem>
                 </ListBox>
             </SplitView.Pane>
             <SplitView.Content>

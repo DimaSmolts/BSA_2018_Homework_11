@@ -35,6 +35,7 @@ namespace UWPClient.View
 			this.InitializeComponent();
 			ss = new StewardessService();
 			list = ss.GetAll().Result;
+			Add.Click += (sender, e) => Create();
 		}
 
 		private Stewardess _selected;
@@ -77,8 +78,11 @@ namespace UWPClient.View
 					TextBlock t3 = new TextBlock { Text = "Birth: " + _selected.Birth.Date };
 
 					Button delete = new Button { Name = "delete", Content = "Delete", Width = 100 };
-					delete.Click += (sender, e) => DeleteById(_selected.Id);
-					Button edit = new Button { Name = "edit", Content = "Ed", Width = 100 };
+					delete.Margin = new Thickness(0, 10, 0, 10);
+					delete.Click += async (sender, e) => await DeleteById(_selected.Id);
+					Button edit = new Button { Name = "edit", Content = "Edit", Width = 100 };
+					edit.Margin = new Thickness(0, 10, 0, 10);
+					edit.Click += (sender, e) => EditById(_selected.Id);
 
 					gr.Children.Clear();
 
@@ -103,6 +107,101 @@ namespace UWPClient.View
 		public async Task DeleteById(int id)
 		{
 			await ss.Delete(id);
+			this.Frame.Navigate(typeof(Stewardesses));
+		}
+
+		public void EditById(int id)
+		{
+			gr.Children.Clear();
+
+			TextBox Name = new TextBox();
+			Name.Header = "Name";
+			TextBox Surname = new TextBox();
+			Surname.Header = "Surname";
+			DatePicker dDate = new DatePicker();
+			dDate.Header = "Birthday";
+			dDate.MinWidth = 150;			
+
+
+			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitEdit(id, Name.Text, Surname.Text, dDate.Date.Date);
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();			
+
+			gr.Children.Add(Name);
+			gr.Children.Add(Surname);
+			gr.Children.Add(dDate);
+			
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Name, 0);
+			Grid.SetRow(Surname, 1);
+			Grid.SetRow(dDate, 2);			
+			Grid.SetRow(submit, 3);
+		}
+
+		public async Task SubmitEdit(int id, string name, string surname, DateTime birth)
+		{
+			Stewardess stew = new Stewardess();
+
+			stew.Name = name;
+			stew.Surname = surname;
+			stew.Birth = birth;
+
+			await ss.Update(id,stew);
+			this.Frame.Navigate(typeof(Stewardesses));
+		}
+
+		public void Create()
+		{
+			selected = new Stewardess();
+			gr.Children.Clear();
+
+			TextBox Name = new TextBox();
+			Name.Header = "Name";
+			TextBox Surname = new TextBox();
+			Surname.Header = "Surname";
+			DatePicker dDate = new DatePicker();
+			dDate.Header = "Birthday";
+			dDate.MinWidth = 150;
+
+
+			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitCreate( Name.Text, Surname.Text, dDate.Date.Date);
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+
+			gr.Children.Add(Name);
+			gr.Children.Add(Surname);
+			gr.Children.Add(dDate);
+
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Name, 0);
+			Grid.SetRow(Surname, 1);
+			Grid.SetRow(dDate, 2);
+			Grid.SetRow(submit, 3);
+		}
+
+		public async Task SubmitCreate(string name, string surname, DateTime birth)
+		{
+			Stewardess stew = new Stewardess();
+
+			stew.Name = name;
+			stew.Surname = surname;
+			stew.Birth = birth;
+
+			await ss.Create(stew);
 			this.Frame.Navigate(typeof(Stewardesses));
 		}
 	}

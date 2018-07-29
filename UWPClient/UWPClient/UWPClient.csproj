@@ -100,6 +100,10 @@
     </Compile>
     <Compile Include="Model\Crew.cs" />
     <Compile Include="Model\Flight.cs" />
+    <Compile Include="Model\InputModels\InputCrew.cs" />
+    <Compile Include="Model\InputModels\InputPlane.cs" />
+    <Compile Include="Model\InputModels\InputTakeOff.cs" />
+    <Compile Include="Model\InputModels\InputTickets.cs" />
     <Compile Include="Model\Pilot.cs" />
     <Compile Include="Model\Plane.cs" />
     <Compile Include="Model\PlaneType.cs" />

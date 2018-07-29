@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using UWPClient.Service;
 using UWPClient.Model;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -131,12 +132,14 @@ namespace UWPClient.View
 			places.Header = "Places";
 			//places.Width = 300;
 			TextBox carCap = new TextBox();
+			//DatePicker carCap = new DatePicker();
 			carCap.Header = "Carry";
-			//carCap.Width = 300; ;
+			//carCap.MinWidth = 100;
+			//carCap.Width = 150; ;
 
 			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
 			submit.Margin = new Thickness(0, 10, 0, 10);
-			submit.Click += async (sender, e) =>  await SubmitEdit(id, model.Text, Convert.ToInt32(places.Text), Convert.ToInt32(carCap.Text));
+			//submit.Click += async (sender, e) =>  await SubmitEdit(id, model.Text, Convert.ToInt32(places.Text), Convert.ToInt32(carCap.Text));
 
 			ColumnDefinition cd = new ColumnDefinition();
 			RowDefinition rd0 = new RowDefinition();
@@ -220,6 +223,13 @@ namespace UWPClient.View
 			await pts.Create(temp);
 			this.Frame.Navigate(typeof(PlaneType));
 		}
+
+		/*
+		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+		{
+			Regex regex = new Regex("[^0-9]+");
+			e.Handled = regex.IsMatch(e.Text);
+		}*/
 
 	}
 }

@@ -116,10 +116,13 @@ namespace UWPClient.View
 
 			TextBox Name = new TextBox();
 			Name.Header = "Name";
+			Name.Text = selected.Name;
 			TextBox Surname = new TextBox();
 			Surname.Header = "Surname";
+			Surname.Text = selected.Surname;
 			DatePicker dDate = new DatePicker();
 			dDate.Header = "Birthday";
+			dDate.Date = selected.Birth;
 			dDate.MinWidth = 150;			
 
 
@@ -171,7 +174,7 @@ namespace UWPClient.View
 			dDate.MinWidth = 150;
 
 
-			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			Button submit = new Button { Name = "submit", Content = "Submit Create", Width = 150 };
 			submit.Margin = new Thickness(0, 10, 0, 10);
 			submit.Click += async (sender, e) => await SubmitCreate( Name.Text, Surname.Text, dDate.Date.Date);
 

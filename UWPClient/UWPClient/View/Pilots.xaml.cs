@@ -123,14 +123,18 @@ namespace UWPClient.View
 			gr.Children.Clear();
 
 			TextBox Name = new TextBox();
-			Name.Header = "Name";			
+			Name.Header = "Name";
+			Name.Text = selected.Name;
 			TextBox Surname = new TextBox();
-			Surname.Header = "Surname";			
+			Surname.Header = "Surname";
+			Surname.Text = selected.Surname;
 			DatePicker dDate = new DatePicker();
 			dDate.Header = "Birthday";
+			dDate.Date = selected.Birth;
 			dDate.MinWidth = 150;
 			TextBox Experience = new TextBox();
 			Experience.Header = "Experience";
+			Experience.Text = selected.Experience.TotalSeconds.ToString();
 
 
 			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };

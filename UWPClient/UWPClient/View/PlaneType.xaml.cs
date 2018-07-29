@@ -127,12 +127,13 @@ namespace UWPClient.View
 
 			TextBox model = new TextBox();
 			model.Header = "Model";
-			//model.Width = 300;
+			model.Text = planeType.Model;
 			TextBox places = new TextBox();
 			places.Header = "Places";
+			places.Text = planeType.Places.ToString();
 			//places.Width = 300;
 			TextBox carCap = new TextBox();
-			//DatePicker carCap = new DatePicker();
+			carCap.Text = planeType.CarryCapacity.ToString();
 			carCap.Header = "Carry";
 			//carCap.MinWidth = 100;
 			//carCap.Width = 150; ;

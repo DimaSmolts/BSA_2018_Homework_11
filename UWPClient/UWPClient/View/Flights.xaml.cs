@@ -122,16 +122,20 @@ namespace UWPClient.View
 
 			TextBox Departure = new TextBox();
 			Departure.Header = "Departure Place";
+			Departure.Text = selected.DeperturePlace;
 			//model.Width = 300;
 			DatePicker dDate = new DatePicker();
 			dDate.Header = "Departure Date";
+			dDate.Date = selected.DepartureTime;
 			dDate.MinWidth = 150;
 			TextBox Arrival = new TextBox();
 			Arrival.Header = "Arrival place";
+			Arrival.Text = selected.ArrivalPlace;
 			//carCap.Width = 300; ;
 			DatePicker aDate = new DatePicker();
 			aDate.Header = "Arrival Date";
 			aDate.MinWidth = 150;
+			aDate.Date = selected.ArrivalTime;
 
 
 			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };

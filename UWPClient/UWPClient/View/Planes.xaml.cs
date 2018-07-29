@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UWPClient.Service;
 using UWPClient.Model;
+using UWPClient.Model.InputModels;
 using System.Threading.Tasks;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
@@ -34,6 +35,8 @@ namespace UWPClient.View
 			this.InitializeComponent();
 			ps = new PlaneService();
 			list = ps.GetAll().Result;
+
+			Add.Click += (sender, e) => Create();
 		}
 
 		private Plane _selected;
@@ -75,12 +78,15 @@ namespace UWPClient.View
 					TextBlock t0 = new TextBlock { Text = "Id: " + _selected.Id };
 					TextBlock t1 = new TextBlock { Text = "Name: " + _selected.Name };
 					TextBlock t2 = new TextBlock { Text = "Time: " + _selected.Made };
-					TextBlock t3 = new TextBlock { Text = "Arrival: " + _selected.Exploitation };
-					TextBlock t4 = new TextBlock { Text = "Time: " + _selected.Type.Model };
+					TextBlock t3 = new TextBlock { Text = "Exploitation: " + _selected.Exploitation };
+					TextBlock t4 = new TextBlock { Text = "Type: " + _selected.Type.Model };
 
-					Button delete = new Button { Name = "delete", Content = "Del", Width = 100 };
-					delete.Click += (sender, e) => DeleteById(selected.Id);
-					Button edit = new Button { Name = "edit", Content = "Ed", Width = 100 };
+					Button delete = new Button { Name = "delete", Content = "Delete", Width = 100 };
+					delete.Margin = new Thickness(0, 10, 0, 10);
+					delete.Click += async (sender, e) =>  await DeleteById(selected.Id);
+					Button edit = new Button { Name = "edit", Content = "Edit", Width = 100 };
+					edit.Margin = new Thickness(0, 10, 0, 10);
+					edit.Click += (sender, e) => EditById(selected.Id);
 
 					gr.Children.Clear();
 
@@ -107,6 +113,137 @@ namespace UWPClient.View
 		public async Task DeleteById(int id)
 		{
 			await ps.Delete(id);
+			this.Frame.Navigate(typeof(Planes));
+		}
+
+		public void EditById(int id)
+		{
+			gr.Children.Clear();
+
+			TextBox Name = new TextBox();
+			Name.Header = "Name";
+			Name.Text = selected.Name;
+
+			TextBox Exp = new TextBox();
+			Exp.Header = "Exp.";
+			Exp.Text = selected.Exploitation.Seconds.ToString();
+
+
+			DatePicker Made = new DatePicker();
+			Made.Header = "Made";
+			Made.MinWidth = 150;
+			Made.Date = selected.Made;
+
+			TextBox Type = new TextBox();
+			Type.Header = "Type";
+			Type.Text = selected.Type.Id.ToString();
+			Type.IsEnabled = false;
+
+
+
+
+			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitEdit(id, Name.Text, Made.Date.Date, Convert.ToInt32(Type.Text), new TimeSpan(Convert.ToInt32(Exp.Text)));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+			RowDefinition rd4 = new RowDefinition();
+
+			gr.Children.Add(Name);
+			gr.Children.Add(Exp);
+			gr.Children.Add(Made);
+			gr.Children.Add(Type);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Name, 0);
+			Grid.SetRow(Exp, 1);
+			Grid.SetRow(Made, 2);
+			Grid.SetRow(Type, 3);
+			Grid.SetRow(submit, 4);
+		}
+
+		public async Task SubmitEdit(int id, string name, DateTime made, int type, TimeSpan exp)
+		{
+			InputPlane plane = new InputPlane();
+
+			plane.Name = name;
+			plane.Made = made;
+			plane.Exploitation = exp;
+			plane.Type = type;						
+
+			await ps.Update(id, plane);
+			this.Frame.Navigate(typeof(Planes));
+		}
+
+		public void Create()
+		{
+			selected = new Plane()
+			{
+				Type = new Model.PlaneType()
+			};
+
+			gr.Children.Clear();
+
+			TextBox Name = new TextBox();
+			Name.Header = "Name";
+			//Name.Text = selected.Name;
+
+			TextBox Exp = new TextBox();
+			Exp.Header = "Exp.";
+			//Exp.Text = selected.Exploitation.Seconds.ToString();
+
+
+			DatePicker Made = new DatePicker();
+			Made.Header = "Made";
+			Made.MinWidth = 150;
+			//Made.Date = selected.Made;
+
+			TextBox Type = new TextBox();
+			Type.Header = "Type";
+			//Type.Text = selected.Type.Id.ToString();
+			//Type.IsEnabled = false;
+
+
+
+
+			Button submit = new Button { Name = "submit", Content = "Submit Create", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitCreate( Name.Text, Made.Date.Date, Convert.ToInt32(Type.Text), new TimeSpan(Convert.ToInt32(Exp.Text)));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+			RowDefinition rd4 = new RowDefinition();
+
+			gr.Children.Add(Name);
+			gr.Children.Add(Exp);
+			gr.Children.Add(Made);
+			gr.Children.Add(Type);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Name, 0);
+			Grid.SetRow(Exp, 1);
+			Grid.SetRow(Made, 2);
+			Grid.SetRow(Type, 3);
+			Grid.SetRow(submit, 4);
+		}
+
+		public async Task SubmitCreate( string name, DateTime made, int type, TimeSpan exp)
+		{
+			InputPlane plane = new InputPlane();
+
+			plane.Name = name;
+			plane.Made = made;
+			plane.Exploitation = exp;
+			plane.Type = type;
+
+			await ps.Create(plane);
 			this.Frame.Navigate(typeof(Planes));
 		}
 

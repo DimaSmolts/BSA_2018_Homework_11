@@ -19,7 +19,8 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="60" Text="{x:Bind s}"></TextBlock>
+        <Button x:Name="Add" Margin="10" Content="Add Plane"/>
+        
         <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{x:Bind list}" SelectedItem="{x:Bind selected, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Plane">

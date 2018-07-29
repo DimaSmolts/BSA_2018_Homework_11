@@ -35,6 +35,8 @@ namespace UWPClient.View
 			this.InitializeComponent();
 			ps = new PilotService();
 			list = ps.GetAll().Result;
+
+			Add.Click += (sender,e) => Create();
 		}
 
 
@@ -81,8 +83,11 @@ namespace UWPClient.View
 					TextBlock t4 = new TextBlock { Text = "Experience: " + _selected.Experience };
 
 					Button delete = new Button { Name = "delete", Content = "Delete", Width = 100 };
-					delete.Click += (sender, e) => DeleteById(_selected.Id);
-					Button edit = new Button { Name = "edit", Content = "Ed", Width = 100 };
+					delete.Margin = new Thickness(0, 10, 0, 10);
+					delete.Click += async (sender, e) => await DeleteById(_selected.Id);				
+					Button edit = new Button { Name = "edit", Content = "Edit", Width = 100 };
+					edit.Margin = new Thickness(0, 10, 0, 10);
+					edit.Click += (sender, e) => EditById(_selected.Id);
 
 					gr.Children.Clear();
 
@@ -110,6 +115,112 @@ namespace UWPClient.View
 		public async Task DeleteById(int id)
 		{
 			await ps.Delete(id);
+			this.Frame.Navigate(typeof(Pilots));
+		}
+
+		public void EditById(int id)
+		{
+			gr.Children.Clear();
+
+			TextBox Name = new TextBox();
+			Name.Header = "Name";			
+			TextBox Surname = new TextBox();
+			Surname.Header = "Surname";			
+			DatePicker dDate = new DatePicker();
+			dDate.Header = "Birthday";
+			dDate.MinWidth = 150;
+			TextBox Experience = new TextBox();
+			Experience.Header = "Experience";
+
+
+			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitEdit(id, Name.Text, Surname.Text, dDate.Date.Date, new TimeSpan(Convert.ToInt32(Experience.Text)));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+			RowDefinition rd4 = new RowDefinition();
+
+			gr.Children.Add(Name);
+			gr.Children.Add(Surname);
+			gr.Children.Add(dDate);
+			gr.Children.Add(Experience);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Name, 0);
+			Grid.SetRow(Surname, 1);
+			Grid.SetRow(dDate, 2);
+			Grid.SetRow(Experience, 3);
+			Grid.SetRow(submit, 4);
+		}
+
+		public async Task SubmitEdit(int id, string name, string surname, DateTime birth, TimeSpan exp)
+		{
+			Pilot p = new Pilot();
+
+			p.Name = name;
+			p.Surname = surname;
+			p.Birth = birth;
+			p.Experience = exp;
+
+			await ps.Update(id, p);
+			this.Frame.Navigate(typeof(Pilots));
+		}
+
+		public void Create()
+		{
+			selected = new Pilot();
+
+			gr.Children.Clear();
+
+			TextBox Name = new TextBox();
+			Name.Header = "Name";
+			TextBox Surname = new TextBox();
+			Surname.Header = "Surname";
+			DatePicker dDate = new DatePicker();
+			dDate.Header = "Birthday";
+			dDate.MinWidth = 150;
+			TextBox Experience = new TextBox();
+			Experience.Header = "Experience";
+
+
+			Button submit = new Button { Name = "submit", Content = "Submit Create", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitCreate(Name.Text, Surname.Text, dDate.Date.Date, new TimeSpan(Convert.ToInt32(Experience.Text)));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			RowDefinition rd3 = new RowDefinition();
+			RowDefinition rd4 = new RowDefinition();
+
+			gr.Children.Add(Name);
+			gr.Children.Add(Surname);
+			gr.Children.Add(dDate);
+			gr.Children.Add(Experience);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Name, 0);
+			Grid.SetRow(Surname, 1);
+			Grid.SetRow(dDate, 2);
+			Grid.SetRow(Experience, 3);
+			Grid.SetRow(submit, 4);
+		}
+
+		public async Task SubmitCreate(string name, string surname, DateTime birth, TimeSpan exp)
+		{
+			Pilot p = new Pilot();
+
+			p.Name = name;
+			p.Surname = surname;
+			p.Birth = birth;
+			p.Experience = exp;
+
+			await ps.Create(p);
 			this.Frame.Navigate(typeof(Pilots));
 		}
 	}

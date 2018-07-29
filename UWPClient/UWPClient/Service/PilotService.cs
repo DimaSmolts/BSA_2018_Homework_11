@@ -20,9 +20,9 @@ namespace UWPClient.Service
 			client = new HttpClient();
 		}
 
-		public Task Create(Pilot pi)
+		public async Task Create(Pilot pi)
 		{
-			throw new NotImplementedException();
+			await client.PostAsJsonAsync(path, pi);
 		}
 
 		public async Task Delete(int id)
@@ -43,9 +43,11 @@ namespace UWPClient.Service
 			return pilots;
 		}
 
-		public Task Update(int id, Pilot pi)
+		public async Task Update(int id, Pilot pi)
 		{
-			throw new NotImplementedException();
+			string temp = path.ToString() + "/" + id.ToString();
+
+			await client.PutAsJsonAsync(temp, pi);
 		}
 	}
 }

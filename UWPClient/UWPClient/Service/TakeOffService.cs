@@ -7,6 +7,7 @@ using UWPClient.Service.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http;
 using UWPClient.Model;
+using UWPClient.Model.InputModels;
 
 namespace UWPClient.Service
 {
@@ -20,9 +21,9 @@ namespace UWPClient.Service
 			client = new HttpClient();
 		}
 
-		public Task Create(TakeOff f)
+		public async Task Create(InputTakeOff f)
 		{
-			throw new NotImplementedException();
+			await client.PostAsJsonAsync(path, f);
 		}
 
 		public async Task Delete(int id)
@@ -44,9 +45,11 @@ namespace UWPClient.Service
 			return takeoffs;
 		}
 
-		public Task Update(int id, TakeOff f)
+		public async Task Update(int id, InputTakeOff f)
 		{
-			throw new NotImplementedException();
+			string temp = path.ToString() + "/" + id.ToString();
+
+			await client.PutAsJsonAsync(temp, f);
 		}
 	}
 }

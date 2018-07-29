@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UWPClient.Service;
 using UWPClient.Model;
+using UWPClient.Model.InputModels;
 using System.Threading.Tasks;
 
 
@@ -36,6 +37,8 @@ namespace UWPClient.View
 			this.InitializeComponent();
 			ts = new TicketService();
 			list = ts.GetAll().Result;
+
+			Add.Click += (sender, e) => Create();
 		}
 
 		private Ticket _selected;
@@ -85,8 +88,11 @@ namespace UWPClient.View
 					TextBlock t5 = new TextBlock { Text = "Time: " + _selected.FlightNum.ArrivalTime };
 
 					Button delete = new Button { Name = "delete", Content = "Delete", Width = 100 };
-					delete.Click += (sender, e) => DeleteById(selected.Id);
+					delete.Margin = new Thickness(0, 10, 0, 10);
+					delete.Click += async (sender, e) => await DeleteById(selected.Id);
 					Button edit = new Button { Name = "edit", Content = "Edit", Width = 100 };
+					edit.Margin = new Thickness(0, 10, 0, 10);
+					edit.Click += (sender, e) => EditById(_selected.Id);
 
 					gr.Children.Clear();
 
@@ -114,6 +120,95 @@ namespace UWPClient.View
 		public async Task DeleteById(int id)
 		{
 			await ts.Delete(id);
+			this.Frame.Navigate(typeof(Tickets));
+		}
+
+		public void EditById(int id)
+		{
+			gr.Children.Clear();
+
+			TextBox Price = new TextBox();
+			Price.Header = "Price";
+			Price.Text = selected.Price.ToString();
+			TextBox FlightId = new TextBox();
+			FlightId.Header = "FlightId";
+			FlightId.Text = selected.FlightNum.FlightNum.ToString();
+			FlightId.IsEnabled = false;
+
+			Button submit = new Button { Name = "submit", Content = "Submit Edit", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitEdit(id, Convert.ToDecimal(Price.Text),Convert.ToInt32(FlightId.Text));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+			
+
+			gr.Children.Add(Price);
+			gr.Children.Add(FlightId);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Price, 0);
+			Grid.SetRow(FlightId, 1);
+			Grid.SetRow(submit, 2);
+		}
+
+		public async Task SubmitEdit(int id, decimal price, int Flightid)
+		{
+			InputTickets ticket = new InputTickets();
+
+			ticket.Price = price;
+			ticket.FlightNum = Flightid;
+
+			await ts.Update(id, ticket);
+			this.Frame.Navigate(typeof(Tickets));
+		}
+
+		public void Create()
+		{
+			selected = new Ticket()
+			{
+				FlightNum = new Flight()
+			};
+			
+			gr.Children.Clear();
+
+			TextBox Price = new TextBox();
+			Price.Header = "Price";
+			//Price.Text = selected.Price.ToString();
+			TextBox FlightId = new TextBox();
+			FlightId.Header = "FlightId";
+			//FlightId.Text = selected.FlightNum.FlightNum.ToString();
+			//FlightId.IsEnabled = false;
+
+			Button submit = new Button { Name = "submit", Content = "Submit Create", Width = 150 };
+			submit.Margin = new Thickness(0, 10, 0, 10);
+			submit.Click += async (sender, e) => await SubmitCreate( Convert.ToDecimal(Price.Text), Convert.ToInt32(FlightId.Text));
+
+			ColumnDefinition cd = new ColumnDefinition();
+			RowDefinition rd0 = new RowDefinition();
+			RowDefinition rd1 = new RowDefinition();
+			RowDefinition rd2 = new RowDefinition();
+
+
+			gr.Children.Add(Price);
+			gr.Children.Add(FlightId);
+			gr.Children.Add(submit);
+
+			Grid.SetRow(Price, 0);
+			Grid.SetRow(FlightId, 1);
+			Grid.SetRow(submit, 2);
+		}
+
+		public async Task SubmitCreate(decimal price, int Flightid)
+		{
+			InputTickets ticket = new InputTickets();
+
+			ticket.Price = price;
+			ticket.FlightNum = Flightid;
+
+			await ts.Create(ticket);
 			this.Frame.Navigate(typeof(Tickets));
 		}
 

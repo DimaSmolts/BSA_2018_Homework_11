@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UWPClient.Model;
+using UWPClient.Model.InputModels;
 
 namespace UWPClient.Service.Interfaces
 {
@@ -12,7 +13,7 @@ namespace UWPClient.Service.Interfaces
 		Task<Ticket> Get();
 		Task<Ticket[]> GetAll();
 		Task Delete(int id);
-		Task Create(Ticket t);
-		Task Update(int id, Ticket t);
+		Task Create(InputTickets t);
+		Task Update(int id, InputTickets t);
 	}
 }
